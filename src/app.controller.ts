@@ -25,12 +25,22 @@ export class AppController {
   @UseFilters(ViewAuthFilter)
   @Render('home')
   home(@Request() req): any {
-    return { title: `Light-Snails`};
+    return { title: `Light-Snails` };
   }
 
   @Get('login')
   @Render('login')
-  loginUI(@Response() res): any {
-    return { title: ''};
+  loginUI(@Request() req, @Response() res): any {
+    if (req.user) {
+      res.redirect('/');
+    }
+
+    return { title: 'Login' };
+  }
+
+  @Get('logout')
+  logout(@Request() req): any {
+    req.session.destroy();
+    return { msg: 'The user session has ended' };
   }
 }

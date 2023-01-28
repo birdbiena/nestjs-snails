@@ -6,6 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { join } from 'path';
+import { HttpExceptionFilter } from './filters/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -18,6 +19,8 @@ async function bootstrap() {
       cookie: { maxAge: 3600000 },
     })
   );
+
+  // app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(passport.initialize());
   app.use(passport.session());
