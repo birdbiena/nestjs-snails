@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.use(
     session({
-      secret: 'peng.yang',
+      secret: 'qoreqmxz.31udfa',
       resave: false,
       saveUninitialized: false,
       cookie: { maxAge: 3600000 },
@@ -29,6 +29,6 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('ejs');
 
-  await app.listen(3000);
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();
