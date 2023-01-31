@@ -2,21 +2,34 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 
 import * as session from 'express-session';
 import * as passport from 'passport';
+import * as createRedisStore from 'connect-redis';
+
 import { join } from 'path';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { createClient } from 'redis';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  const configService = app.get(ConfigService);
+
+  const RedisStore = createRedisStore(session);
+  const redisClient = createClient({
+    host: configService.get('REDIS_HOST'),
+    port: configService.get('REDIS_PORT'),
+  });
+
   app.use(
     session({
-      secret: 'qoreqmxz.31udfa',
+      store: new RedisStore({ client: redisClient }),
+      secret: configService.get('SESSION_SECRET'),
       resave: false,
       saveUninitialized: false,
-      cookie: { maxAge: 3600000 },
+      // cookie: { maxAge: 3600000 },
+      cookie: { maxAge: 60000, sameSite: 'lax' },
     })
   );
 
