@@ -10,6 +10,7 @@ import * as createRedisStore from 'connect-redis';
 
 import { join } from 'path';
 import { createClient } from 'redis';
+import { CustomLogger } from './logger/custom-logger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -37,6 +38,7 @@ async function bootstrap() {
 
   app.use(passport.initialize());
   app.use(passport.session());
+  app.useLogger(app.get(CustomLogger));
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
