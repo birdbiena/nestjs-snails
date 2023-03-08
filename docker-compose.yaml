@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:latest
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - data-postgres:/data/postgres
+    networks:
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - .env
+    ports:
+      - "8088:80"
+    volumes:
+      - data-pgadmin:/root/.pgadmin
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+        - redis
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  data-postgres:
+    driver: local
+  data-pgadmin:
+    driver: local

@@ -1,0 +1,135 @@
+<%- include('./partials/header') %>
+
+<body>
+    <style>
+        #gatsby {
+            color-scheme: light;
+            -webkit-tap-highlight-color: transparent;
+            font-family: Hiragino Sans GB, Microsoft YaHei;
+            font-size: 16px;
+            min-height: 100vh;
+        }
+
+        .page {
+            background-color: #fff;
+            padding-bottom: 74px;
+        }
+
+        .section-card {
+            animation: es-enter .5s 1 forwards;
+            opacity: 1;
+            transform: translateY(20px);
+            background: rgb(255, 255, 255);
+            padding: 0px;
+            display: block;
+        }
+
+        .section-card-cell {
+            width: 1200px;
+            margin: auto;
+        }
+
+        .product-type-wrapper {
+            position: relative;
+            width: 1200px;
+            margin: 0px auto;
+            padding: 32px 0px 16px;
+        }
+
+        .grid-grid-sc {
+            display: flex;
+            flex-flow: row wrap;
+            margin: calc(-12px);
+        }
+
+        .grid-gridcell-sc {
+            flex: 0 0 calc(25%);
+            width: 0px;
+            padding: calc(12px);
+            box-sizing: border-box;
+        }
+
+        .product-item-wrapper {
+            position: relative;
+            width: 282px;
+            height: 240px;
+            padding: 32px 20px 12px;
+            background: rgb(255, 255, 255);
+            border: 1px solid rgb(197, 206, 222);
+            border-radius: 8px;
+            box-sizing: border-box;
+            transform: scale(1);
+            /* cursor: pointer; */
+        }
+
+        .svg-icon {
+            cursor: pointer;
+            align-items: center;
+            display: inline-flex;
+            justify-content: center;
+            font-size: 32px;
+            color: rgb(95, 97, 103);
+        }
+
+        .multiline-text {
+            /* cursor: pointer; */
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            overflow: hidden;
+            position: relative;
+            text-align: left;
+            font-size: 14px;
+            color: rgb(90, 103, 125);
+            height: 72px;
+            line-height: 24px;
+            -webkit-line-clamp: 3;
+            height: 72px;
+            line-height: 24px;
+            -webkit-line-clamp: 3
+        }
+
+        .tag-planning {
+            /* cursor: pointer; */
+            position: absolute;
+            right: 20px;
+            top: 32px;
+            display: inline-block;
+            padding: 0px 8px;
+            border-radius: 8px 0px;
+            font-size: 14px;
+            line-height: 24px;
+            color: rgb(255, 255, 255);
+            background: rgb(105, 82, 196);
+        }
+    </style>
+    <div id="gatsby">
+        <div style="outline:none" tabindex="-1">
+            <div class="page" style="padding-bottom:74px">
+                <section class="section-card">
+                    <div class="section-card-cell">
+                        <% data.forEach( (categories, index) => {
+                            if (categories['products'].length > 0) { %>
+                                <div class="product-type-wrapper">
+                                    <h3><%= categories['name'] %></h3>
+                                    <div class="grid-grid-sc">
+                                        <% categories['products'].forEach((products, index) => {
+                                            if (!products['hidden']) {  %>
+                                                <div class="grid-gridcell-sc">
+                                                    <div class="product-item-wrapper">
+                                                        <i class="svg-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 0C14.0899 0 17 2.91015 17 6.5C17 6.66824 16.9936 6.83498 16.9811 7H15.4752C15.4916 6.83533 15.5 6.66852 15.5 6.5C15.5 3.73858 13.2614 1.5 10.5 1.5C7.73858 1.5 5.5 3.73858 5.5 6.5C5.5 6.8719 5.54035 7.23719 5.61931 7.59119L5.68574 7.85451L6.084 9.2667L4.68093 9.696C2.80617 10.2696 1.5 12.0081 1.5 14C1.5 16.4853 3.51472 18.5 6 18.5V20C2.68629 20 0 17.3137 0 14C0 11.298 1.7861 9.0131 4.24205 8.26164C4.08429 7.70222 4 7.11095 4 6.5C4 2.91015 6.91015 0 10.5 0ZM18.5717 14.5082H9.1457C8.35689 14.5082 7.71744 15.179 7.71744 16.0065V18.5016C7.71744 19.3292 8.35689 20 9.1457 20H18.5717C19.3605 20 20 19.3292 20 18.5016V16.0065C20 15.179 19.3605 14.5082 18.5717 14.5082ZM18.5717 18.5016H9.1457V16.0065H18.5717V18.5016ZM12.25 17.2C12.25 16.9239 12.0261 16.7 11.75 16.7C11.4739 16.7 11.25 16.9239 11.25 17.2C11.25 17.4761 11.4739 17.7 11.75 17.7C12.0261 17.7 12.25 17.4761 12.25 17.2ZM13.75 17.2C13.75 16.9239 13.9739 16.7 14.25 16.7H17C17.2761 16.7 17.5 16.9239 17.5 17.2C17.5 17.4761 17.2761 17.7 17 17.7H14.25C13.9739 17.7 13.75 17.4761 13.75 17.2ZM9.1457 8.50816H18.5717C19.3605 8.50816 20 9.179 20 10.0065V12.5016C20 13.3292 19.3605 14 18.5717 14H9.1457C8.35689 14 7.71744 13.3292 7.71744 12.5016V10.0065C7.71744 9.179 8.35689 8.50816 9.1457 8.50816ZM9.1457 12.5016H18.5717V10.0065H9.1457V12.5016ZM11.75 10.7C12.0261 10.7 12.25 10.9239 12.25 11.2C12.25 11.4761 12.0261 11.7 11.75 11.7C11.4739 11.7 11.25 11.4761 11.25 11.2C11.25 10.9239 11.4739 10.7 11.75 10.7ZM14.25 10.7C13.9739 10.7 13.75 10.9239 13.75 11.2C13.75 11.4761 13.9739 11.7 14.25 11.7H17C17.2761 11.7 17.5 11.4761 17.5 11.2C17.5 10.9239 17.2761 10.7 17 10.7H14.25Z" fill="#5F6167"></path></svg></i>
+                                                        <a href="https://www.easystack.cn/cloud-products/<%= products['code']%>/overview/" title="<%= products['name']%>">
+                                                            <h4><%= products['name']%></h4>
+                                                        </a>
+                                                        <span class="multiline-text"><%= products['description']%></span>
+                                                    </div>
+                                                </div>
+                                        <%} }) %>
+                                    </div>
+                                </div>
+                        <%} })%>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
