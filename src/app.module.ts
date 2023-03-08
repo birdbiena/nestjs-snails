@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { CacheModule, Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 
 import { LoggerModule } from './logger/logger.module';
 import { LogsMiddlewareService } from './share/logs-middleware.service';
+import { ProductsModule } from './products/products.module';
 
 import * as Joi from '@hapi/joi';
 
@@ -26,15 +27,23 @@ import * as Joi from '@hapi/joi';
         REDIS_PORT: Joi.number().required(),
 
         SESSION_SECRET: Joi.string().required(),
+
+        RAINBOW_URL: Joi.string().required(),
+        RAINBOW_IDENTIFIER: Joi.string().required(),
+        RAINBOW_PASSWORD: Joi.string().required(),
       }),
+    }),
+    CacheModule.register({
+      isGlobal: true
     }),
     DatabaseModule,
     UsersModule,
     AuthModule,
     LoggerModule,
+    ProductsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

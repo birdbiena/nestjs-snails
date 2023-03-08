@@ -1,6 +1,7 @@
-import { LoggerService, LogLevel } from '@nestjs/common';
+import { Injectable, LoggerService, LogLevel } from '@nestjs/common';
 import pino from 'pino';
 
+@Injectable()
 export default class MyLoggerService implements LoggerService {
   private readonly logger: pino.Logger;
 
@@ -8,30 +9,30 @@ export default class MyLoggerService implements LoggerService {
     this.logger = logger;
   }
 
-  log(message: any, ...optionalParams: any[]) {
+  log(message: any, ..._optionalParams: any[]) {
 
     this.logger.info(message);
 
     throw new Error('Method not implemented.');
   }
 
-  error(message: any, ...optionalParams: any[]) {
+  error(_message: any, ..._optionalParams: any[]) {
     throw new Error('Method not implemented.');
   }
 
-  warn(message: any, ...optionalParams: any[]) {
+  warn(_message: any, ..._optionalParams: any[]) {
     throw new Error('Method not implemented.');
   }
 
-  debug?(message: any, ...optionalParams: any[]) {
+  debug?(_message: any, ..._optionalParams: any[]) {
     throw new Error('Method not implemented.');
   }
 
-  verbose?(message: any, ...optionalParams: any[]) {
+  verbose?(_message: any, ..._optionalParams: any[]) {
     throw new Error('Method not implemented.');
   }
 
-  setLogLevels?(levels: LogLevel[]) {
+  setLogLevels?(_levels: LogLevel[]) {
     throw new Error('Method not implemented.');
   }
 }
